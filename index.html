@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>借款攻略</title>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+    <style type="text/css">
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        overflow-x: hidden;
+        background-color: #fff;
+        width: 7.5rem;
+    }
+    p{ margin: 0;padding: 0;}
+    .box{ width: 7.5rem; height: 22.94rem; margin: 0 auto; opacity: 0; transition:  .5s all;}
+    .top{ background-image:url(images/jkgl/top.png);background-size:100% 100%; height: 4.32rem;width: 7.5rem;  }
+    .reg{ background-image:url(images/jkgl/reg.png);background-size: 100% 100%; width: 6.84rem;height: 2.65rem; margin: 0 auto;margin-top: 0.3rem; position: relative;}
+    .reg .name{ top: 0.1rem;left: 1.5rem; }
+    .reg .des{ top: 1rem;left: 0.8rem; }
+    .rz{ background-image:url(images/jkgl/rz.png);background-size: 100% 100%; width: 6.84rem;height: 2.65rem; margin: 0 auto;margin-top: 0.3rem; position: relative;}
+    .rz .name{ top: 0.1rem;left: 5.2rem; }
+    .rz .des{ top: 1rem;left: 4.5rem; text-align: right; }
+    .link{ background-image:url(images/jkgl/link.png);background-size: 100% 100%; width: 6.84rem;height: 2.65rem; margin: 0 auto;margin-top: 0.3rem; position: relative;}
+    .link .name{ top: 0.1rem;left: 1.5rem; }
+    .link .des{ top: 1rem;left: 0.8rem; }
+    .bank{ background-image:url(images/jkgl/bank.png);background-size: 100% 100%; width: 6.84rem;height: 2.65rem; margin: 0 auto;margin-top: 0.3rem; position: relative;}
+    .bank .name{ top: 0.1rem;left: 5rem; }
+    .bank .des{ top: 1rem;left: 4rem; text-align: right}
+    .borrow{ background-image:url(images/jkgl/borrow.png);background-size: 100% 100%; width: 6.84rem;height: 2.65rem; margin: 0 auto;margin-top: 0.3rem; position: relative;}
+    .borrow .name{ top: 0.1rem;left: 1.5rem; }
+    .borrow .des{ top: 1rem;left: 0.8rem; }
+    
+    .btn{ width: 7rem;height: .65rem;text-align: center;color: #9297e3;border: 1px solid #9297e3;font-size: .36rem;border-radius: 15px;font-family: "手札体-简";margin: 0 auto;line-height: .65rem; }
+    .des{ font-family: "苹方-简";font-size: 0.3rem;color: #646464; position: absolute; line-height: .45rem;}
+    .name{ font-size: 0.34rem;font-family: "苹方-简"; color: #fff; position: absolute;}
+    </style>
+</head>
+
+<body>
+    <div class="box">
+        <div class="top"></div>
+        <!--去注册-->
+        <div class="reg">
+            <span class="name">注册</span>
+            <div class="des">
+                <p>用您的手机号码</p>
+                <p>在平台注册一个账号</p>
+            </div>
+        </div>
+        <div class="btn btn-reg" onclick="goReg()">注册</div>
+        <!--去认证-->
+        <div class="rz">
+            <span class="name">实名认证</span>
+            <div class="des">
+                <p>基础认证-</p>
+                <p>身份证认证</p>
+            </div>
+        </div>
+        <div class="btn btn-rz" onclick="goRz()">去认证</div>
+        <!--填写紧急联系人-->
+        <div class="link">
+            <span class="name">紧急联系人</span>
+            <div class="des">
+                <p>基础认证-</p>
+                <p>填写紧急联系人</p>
+            </div>
+        </div>
+        <div class="btn btn-link" onclick="goLink()">填写紧急联系人</div>
+        <!--银行卡认证-->
+        <div class="bank">
+            <span class="name">银行卡认证</span>
+            <div class="des">
+                <p>基础认证-</p>
+                <p>收款银行卡认证</p>
+            </div>
+        </div>
+        <div class="btn btn-bank" onclick="goBank()">去认证</div>
+        <!--去借款-->
+        <div class="borrow">
+            <span class="name">申请借款</span>
+            <div class="des">
+                <p>选择产品-</p>
+                <p>申请借款</p>
+            </div>
+        </div>
+        <div class="btn btn-borrow" onclick="goBorrow()">去借款</div>
+    </div>
+    <script type="text/javascript">
+        //动态设置html的font-size大小 font-size = 视窗宽度/7.5 1rem=100px
+        document.documentElement.style.fontSize = document.documentElement.clientWidth/7.5+'px';
+        //解决闪屏问题
+        document.getElementsByClassName("box")[0].style.opacity = 1;
+
+        //跳转至APP
+        function goReg() {
+            try {
+                window.webkit.messageHandlers.goRegister.postMessage(null);
+            } catch (e) {
+                try {
+                    window.control.goRegister();
+                } catch (eg) {
+                    alert("未识别到方法 goRegister")
+                }
+            }
+        }
+        function goRz() {
+            try {
+                window.webkit.messageHandlers.goShiMin.postMessage(null);
+            } catch (e) {
+                try {
+                    window.control.goShiMin();
+                } catch (eg) {
+                    alert("未识别到方法 goShiMin")
+                }
+            }
+        }
+        function goLink() {
+            try {
+                window.webkit.messageHandlers.goContacts.postMessage(null);
+            } catch (e) {
+                try {
+                    window.control.goContacts();
+                } catch (eg) {
+                    alert("未识别到方法 goContacts")
+                }
+            }
+        }
+        function goBank() {
+            try {
+                window.webkit.messageHandlers.goBankAuth.postMessage(null);
+            } catch (e) {
+                try {
+                    window.control.goBankAuth();
+                } catch (eg) {
+                    alert("未识别到方法 goBankAuth")
+                }
+            }
+        }
+        function goBorrow() {
+            try {
+                window.webkit.messageHandlers.goHome.postMessage(null);
+            } catch (e) {
+                try {
+                    window.control.goHome();
+                } catch (eg) {
+                    alert("未识别到方法 goHome")
+                }
+            }
+        }
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>H5页面切割总结</title>
+	<meta charset="utf-8">
+	<mate name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no"/>
+	<style type="text/css">
+		body{ margin: 0;padding:0; width: 640px;}
+		.box{
+			width: 2rem;
+			height: 2rem;
+			background: red;
+		}
+	</style>
+</head>
+<body>
+	<div class="box"></div>
+	<script type="text/javascript">
+		//动态设置html的font-size大小 font-size = 视窗宽度/7.5
+		document.documentElement.style.fontSize = document.documentElement.clientWidth/6.4+'px';
+	</script>
+</body>
+</html>

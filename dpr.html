@@ -1,0 +1,45 @@
+<!--
+* 通过css3的媒体查询 media 来控制不同设备像素比现实不同的样式
+-->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>CSS媒体查询根据不同的</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<style type="text/css">	
+		html,body{ margin: 0;padding: 0; }
+		.box{ width: 100%; height: 100px; line-height: 100px; color:#fff; font-size: 30px; text-align: center; }
+		/**设备下像素比为2的**/
+		@media (-webkit-min-device-pixel-ratio:2) {
+			.box{ background: red; }
+		}
+		/**设备像素比为3的**/
+		@media (-webkit-min-device-pixel-ratio:3) {
+			.box{ background: blue; }
+		}
+
+		/**常见的css媒体查询写法**/
+		@media (device-height:568px) and (-webkit-min-device-pixel-ratio:2){/* 兼容iphone5 */} 
+		@media only screen and (max-device-width :480px){ } 
+		@media only screen and (min-device-width :481px){ } 
+
+		/*6*/ 
+		@media (min-device-width : 375px) and (max-device-width : 667px) and (-webkit-min-device-pixel-ratio : 2){ } 
+
+		/*6+*/ 
+		@media (min-device-width : 414px) and (max-device-width : 736px) and (-webkit-min-device-pixel-ratio : 3){ } 
+
+		/*魅族*/ 
+		@media only screen and (min-device-width :1080px) and (-webkit-min-device-pixel-ratio : 2.5){ } 
+
+		/*mate7*/ 
+		@media only screen and (min-device-width :1080px) and (-webkit-min-device-pixel-ratio : 3){ } 
+
+		/*4 4s*/ 
+		@media only screen and (device-height :480px) and (-webkit-device-pixel-ratio:2){ }
+	</style>
+</head>
+<body>
+	<div class="box">我是一个大盒子</div>
+</body>
+</html>

@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>HTML5 内indexedDB 浏览器内持久化存储数据常用操作练习</title>
+    <script src="https://cdn.bootcss.com/vue/2.5.13/vue.js"></script>
+    <style type="text/css">
+    html,
+    body,
+    ul,
+    li {
+        margin: 0;
+        padding: 0;
+    }
+
+    li {
+        list-style: none;
+        position: relative;
+        height: 100px;
+        font-family: "微软雅黑";
+    }
+
+    em {
+        font-style: normal;
+    }
+
+    .main {
+        width: 800px;
+        margin: 0 auto;
+    }
+
+    .title {
+        width: 100%;
+        text-align: center;
+        border-bottom: 1px solid #009688;
+        line-height: 45px;
+        color: #009688;
+        font-size: 16px;
+    }
+
+    .head {
+        height: 80px;
+        width: 80px;
+        border: 1px solid #eee;
+        border-radius: 5px;
+        margin-top: 10px;
+    }
+
+    .name {
+        position: absolute;
+        top: 5px;
+        left: 100px;
+        font-size: 12px;
+    }
+
+    .time {
+        position: absolute;
+        top: 5px;
+        right: 10px;
+        font-size: 12px;
+    }
+
+    .desc {
+        position: absolute;
+        left: 100px;
+        top: 35px;
+        line-height: 30px;
+        color: #888;
+        font-size: 14px;
+    }
+
+    .liuyan {
+        width: 98%;
+        height: 100px;
+        outline: none;
+        padding: 10px;
+    }
+
+    .btn-box {
+        text-align: center;
+    }
+
+    .btn {
+        height: 35px;
+        width: 120px;
+        text-align: center;
+        background: #008CBA;
+        color: #fff;
+        font-size: 14px;
+        border-radius: 15px;
+        outline: none;
+        border: none;
+    }
+    </style>
+</head>
+
+<body>
+    <div id="app" class="main">
+        <h5 class="title">聊天记录</h5>
+        <ul>
+            <li v-for="item in list">
+                <div class="head"></div>
+                <em class="name">{{item.name}}</em>
+                <span class="time">{{item.time}}</span>
+                <div class="desc">{{item.msg}}</div>
+            </li>
+        </ul>
+        <h5 class="title">留言区</h5>
+        <textarea class="liuyan" v-model="msg"></textarea>
+        <div class="btn-box">
+            <button class="btn" v-on:click="submit()">提交</button>
+        </div>
+    </div>
+    <script type="text/javascript">
+    /**
+     * 操作indexedDB前端数据库常用工具
+     */
+    var indexedDBControl = {
+        database: null, //数据库
+        DB_STORE_NAME: "user",
+        /**
+         * 打开数据库
+         * @parma _dbname:string 数据库名称
+         */
+        open: function(_dbname) {
+            var _inThis = this;
+            if (!window.indexedDB) {
+                console.error("您的浏览器版本不支持,建议您升级为主流浏览器（Chrome、Firefox、Safari）");
+                return;
+            }
+            var request = window.indexedDB.open(_dbname, 2);
+            request.onerror = function(event) {
+                console.error("不能正确使用indexedDB");
+            }
+            request.onsuccess = function(event) {
+                _inThis.database = request.result;
+                _inThis.getAll();
+            }
+            request.onupgradeneeded = function(event) {
+                debugger
+                //创建表
+                var store = event.currentTarget.result.createObjectStore(_inThis.DB_STORE_NAME, { keyPath: 'id', autoIncrement: true });
+                //创建表的列
+                store.createIndex('name', 'name', { unique: false });
+                store.createIndex('time', 'time', { unique: false });
+                store.createIndex('msg', 'msg', { unique: true });
+            }
+        },
+        /**
+         * 录入数据
+         */
+        add: function(_item) {
+            var tx = this.database.transaction(this.DB_STORE_NAME, 'readwrite');
+            var store = tx.objectStore(this.DB_STORE_NAME);
+            var req = store.add(_item);
+            req.onsuccess = function(event) {
+                app.msg = "";
+                app.list = [];
+                indexedDBControl.getAll();
+                alert("提交成功");
+            }
+            req.onerror = function(event) {
+                console.log("提交失败");
+            }
+        },
+        /**
+         * 获取列表
+         */
+        getAll: function() {
+            var tx = this.database.transaction(this.DB_STORE_NAME, 'readonly');
+            var store = tx.objectStore(this.DB_STORE_NAME);            
+            var req = store.openCursor();
+
+            req.onsuccess = function(event) {               
+                var cursor = event.target.result;
+                if (cursor) {
+                	app.list.push(cursor.value);
+
+                	cursor.continue();
+                }
+            }
+        }
+    };
+
+    var app = new Vue({
+        el: "#app",
+        data: {
+            msg: "",
+            list: []
+        },
+        created: function() {
+            indexedDBControl.open("message");
+        },
+        methods: {
+            submit: function() {
+                if (this.msg.length == 0) {
+                    alert("请先输入留言内容");
+                    return;
+                }
+                indexedDBControl.add({ name: "rmj", time: "2018-01-12", msg: this.msg });
+            }
+        }
+    });
+    </script>
+</body>
+
+</html>
