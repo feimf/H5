@@ -2,11 +2,12 @@
 这里整理了一些采用不同切割方法的例子：
 
 ## 一、网易常用换算方案
+  <pre>
    要点：直接以iPhone6(750px为基准) 保证1rem=100px的换算,设定body的宽度为7.5rem; 结合脚本动态设置html的font-size大小
   		document.documentElement.style.fontSize = document.documentElement.clientWidth/7.5+"px";
    
    例子：index.html
-
+  </pre>
 ## 二、通过CSS3的媒体查询设置不同设备像素比的样式
 	例子：dpr.html
 
@@ -23,5 +24,5 @@
 	    4、1rem = 75px;
 
 	例子：flex.html
-	
+
 	问题：对iPad支持力度不够 会默认当做Android来对待 dpr设置为1
